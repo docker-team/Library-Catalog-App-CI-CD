@@ -36,8 +36,16 @@ jobs:
     if: github.ref == 'refs/heads/main'
     needs: integration_tests
     steps:
-      - name: Deploy to production
+      - name: Checkout of the repo
+        uses: actions/checkout@v4
+      - name: Deploy Web Service to Render
         uses: johnbeynon/render-deploy-action@v0.0.8
         with:
-          service-id: ${{ secrets.MY_RENDER_SERVICE_ID }}
+          service-id: ${{ secrets.MY_RENDER_WEB_SERVICE_ID }}
+          api-key: ${{ secrets.MY_RENDER_API_KEY }}
+          
+      - name: Deploy Static Site to Render
+        uses: johnbeynon/render-deploy-action@v0.0.8
+        with:
+          service-id: ${{ secrets.MY_RENDER_STATIC_SITE_ID }}
           api-key: ${{ secrets.MY_RENDER_API_KEY }}
