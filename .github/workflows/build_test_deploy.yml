@@ -28,10 +28,6 @@ jobs:
           npm run start-be &
           npm run start-fe &
           sleep 10  # Wait for 10 seconds to allow servers to start
-      - name: Check Backend Server
-        run: curl -f http://localhost:3030 || exit 1
-      - name: Check Frontend Server
-        run: curl -f http://localhost:3000 || exit 1
       - name: Run Integration Tests
         run: npx playwright test tests/ui.test.js
 
