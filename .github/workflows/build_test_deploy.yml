@@ -39,24 +39,20 @@ jobs:
       - name: Checkout of the repo
         uses: actions/checkout@v4
 
-      - name: Display Environment Variables
-        run: |
-          echo "WEB_SERVICE_ID: ${{ secrets.MY_RENDER_WEB_SERVICE_ID }}"
-          echo "STATIC_SITE_ID: ${{ secrets.MY_RENDER_STATIC_SITE_ID }}"
-          echo "API_KEY: ${{ secrets.MY_RENDER_API_KEY }}"
-        env:
-          MY_RENDER_WEB_SERVICE_ID: ${{ secrets.MY_RENDER_WEB_SERVICE_ID }}
-          MY_RENDER_STATIC_SITE_ID: ${{ secrets.MY_RENDER_STATIC_SITE_ID }}
-          MY_RENDER_API_KEY: ${{ secrets.MY_RENDER_API_KEY }}
-
       - name: Deploy Web Service to Render
-        uses: johnbeynon/render-deploy-action@v0.0.8
-        with:
-          service-id: ${{ secrets.MY_RENDER_WEB_SERVICE_ID }}
-          api-key: ${{ secrets.MY_RENDER_API_KEY }}
+        run: |
+          curl -X POST \
+            -H "Accept: application/json" \
+            -H "Authorization: Bearer ${{ secrets.MY_RENDER_API_KEY }}" \
+            -H "Content-Type: application/json" \
+            -d '{"serviceId": "${{ secrets.MY_RENDER_WEB_SERVICE_ID }}"}' \
+            https://api.render.com/v1/services/${{ secrets.MY_RENDER_WEB_SERVICE_ID }}/deploys
 
       - name: Deploy Static Site to Render
-        uses: johnbeynon/render-deploy-action@v0.0.8
-        with:
-          service-id: ${{ secrets.MY_RENDER_STATIC_SITE_ID }}
-          api-key: ${{ secrets.MY_RENDER_API_KEY }}
+        run: |
+          curl -X POST \
+            -H "Accept: application/json" \
+            -H "Authorization: Bearer ${{ secrets.MY_RENDER_API_KEY }}" \
+            -H "Content-Type: application/json" \
+            -d '{"serviceId": "${{ secrets.MY_RENDER_STATIC_SITE_ID }}"}' \
+            https://api.render.com/v1/services/${{ secrets.MY_RENDER_STATIC_SITE_ID }}/deploys
