@@ -9,7 +9,7 @@ on:
       - main
 
 jobs:
-   integration_tests:
+  integration_tests:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout of the repo
@@ -29,21 +29,32 @@ jobs:
           npm run start-fe &
           sleep 10  # Wait for 10 seconds to allow servers to start
       - name: Run Integration Tests
-        run: npm run test:ui
+        run: npx playwright test tests/ui.test.js
 
-   deploy_to_render:
+  deploy_to_render:
     runs-on: ubuntu-latest
     if: github.ref == 'refs/heads/main'
     needs: integration_tests
     steps:
       - name: Checkout of the repo
         uses: actions/checkout@v4
+
+      - name: Display Environment Variables
+        run: |
+          echo "WEB_SERVICE_ID: ${{ secrets.MY_RENDER_WEB_SERVICE_ID }}"
+          echo "STATIC_SITE_ID: ${{ secrets.MY_RENDER_STATIC_SITE_ID }}"
+          echo "API_KEY: ${{ secrets.MY_RENDER_API_KEY }}"
+        env:
+          MY_RENDER_WEB_SERVICE_ID: ${{ secrets.MY_RENDER_WEB_SERVICE_ID }}
+          MY_RENDER_STATIC_SITE_ID: ${{ secrets.MY_RENDER_STATIC_SITE_ID }}
+          MY_RENDER_API_KEY: ${{ secrets.MY_RENDER_API_KEY }}
+
       - name: Deploy Web Service to Render
         uses: johnbeynon/render-deploy-action@v0.0.8
         with:
           service-id: ${{ secrets.MY_RENDER_WEB_SERVICE_ID }}
           api-key: ${{ secrets.MY_RENDER_API_KEY }}
-          
+
       - name: Deploy Static Site to Render
         uses: johnbeynon/render-deploy-action@v0.0.8
         with:
