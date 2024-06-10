@@ -9,7 +9,7 @@
         "start": "concurrently \"npm run start-be\" \"npm run start-fe\"",
         "start-fe": "http-server -a localhost -p 3000 -P http://localhost:3000? -c-1",
         "start-be": "cd server && node server.js",
-        "npm-test-security": "npm audit fix"
+        "npm-test-security": "npm audit fix --force"
     },
     "author": "",
     "license": "ISC",
