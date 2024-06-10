@@ -1,11 +1,13 @@
 name: Build and Test and Deploy
-'on':
+
+on:
   push:
     branches:
       - main
   pull_request:
     branches:
       - main
+
 jobs:
  integration_tests:
     runs-on: ubuntu-latest
@@ -19,10 +21,14 @@ jobs:
           cache: npm
       - name: Install Dependencies
         run: npm install
-      - name: Run BE and FE and wait for them to be ready
-        run: npm run start &
+      - name: Run BE and FE in background
+        run: |
+          npm run start-be &
+          npm run start-fe &
+          sleep 10  # Wait for 10 seconds to allow servers to start
       - name: Run Integration Tests
-        run: npm run wait-and-test
+        run: npm run test:ui
+
  Deploy_to_render:
     runs-on: ubuntu-latest
     if: github.ref == 'refs/heads/main'

@@ -8,8 +8,7 @@
         "test:ui-debug": "npx playwright test tests/ui.test.js --debug --ui",
         "start": "concurrently \"npm run start-be\" \"npm run start-fe\"",
         "start-fe": "http-server -a localhost -p 3000 -P http://localhost:3000? -c-1",
-        "start-be": "cd server && node server.js",
-        "wait-and-test": "wait-on http://localhost:3000 http://localhost:3030 && npm run test:ui"
+        "start-be": "cd server && node server.js"
     },
     "author": "",
     "license": "ISC",
