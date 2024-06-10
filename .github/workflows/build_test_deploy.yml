@@ -19,10 +19,8 @@ jobs:
           cache: npm
       - name: Install Dependencies
         run: npm install
-      - name: Run BE
-        run: npm run start-be
-      - name: Run FE
-        run: npm run start-fe
+      - name: Run BE and FE
+        run: npm run start
       - name: Run Integration Tests
         run: npn run test:ui
  Deploy_to_render:
