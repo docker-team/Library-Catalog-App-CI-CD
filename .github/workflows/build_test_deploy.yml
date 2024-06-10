@@ -23,7 +23,7 @@ jobs:
       with:
         node-version: ${{ matrix.node-version }}
         cache: 'npm'
-    - run: npm run npm run start-be
-    - run: npm run npm run start-fe
+    - run: npm run start-be
+    - run: npm run start-fe
     - run: npm run test:ui
     
