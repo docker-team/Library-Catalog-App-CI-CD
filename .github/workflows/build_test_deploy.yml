@@ -46,12 +46,14 @@ jobs:
           api-key: ${{ secrets.MY_RENDER_API_KEY }}
       - name: Sleep for 60 sec
         run: sleep 60
-        
+
    deploy_frondend-render:
     runs-on: ubuntu-latest
     if: github.ref == 'refs/heads/main'
     needs: deploy_backend-render
     steps:
+      - name: Checkout of the repo
+        uses: actions/checkout@v4
       - name: Deploy Static Site to Render
         uses: johnbeynon/render-deploy-action@v0.0.8
         with:
