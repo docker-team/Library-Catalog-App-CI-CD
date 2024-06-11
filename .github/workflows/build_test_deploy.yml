@@ -21,6 +21,8 @@ jobs:
           cache: npm
       - name: Install Dependencies
         run: npm install
+      - name: change the config
+        run: echo "export const settings = { host:\"http://localhost:3030\" }" > config.js
       - name: Install Playwright
         run: npx playwright install
       - name: Run BE  in backgroud
