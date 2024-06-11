@@ -15,6 +15,7 @@ test('Verify All Books link is visible', async ({ page }) => {
     await expect(allBookLink).toContainText(allBookText);
 
     await allBookLink.click();
+
     // Verify that all books page url
     await expect(page).toHaveURL(allBooksUrl);
 });
