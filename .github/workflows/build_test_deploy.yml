@@ -9,7 +9,7 @@ on:
       - main
 
 jobs:
-   integration_tests:
+   ui_tests:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout of the repo
@@ -23,18 +23,17 @@ jobs:
         run: npm install
       - name: Install Playwright
         run: npx playwright install
-      - name: Run BE and FE in background
-        run: |
-          npm run start-be &
-          npm run start-fe &
-          sleep 10  # Wait for 10 seconds to allow servers to start
-      - name: Run Integration Tests
+      - name: Run BE  in backgroud
+        run: npm run start-be &
+      - name: Run FE in backgroud    
+        run: npm run start-fe &
+      - name: Run UI Tests
         run: npx playwright test tests/ui.test.js
 
    deploy_to_render:
     runs-on: ubuntu-latest
     if: github.ref == 'refs/heads/main'
-    needs: integration_tests
+    needs: ui_tests
     steps:
       - name: Checkout of the repo
         uses: actions/checkout@v4
